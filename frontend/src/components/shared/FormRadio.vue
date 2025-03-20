@@ -30,16 +30,17 @@ const validationFeedback = ref("");
 watch(selectedValue, (newValue) => {
   setFormData(props.name, newValue);
   emit("update:modelValue", newValue);
-  validate();
 });
 
 function validate() {
   validationFeedback.value = "";
+  
   const validation = props.rules(selectedValue.value);
   if (validation !== true) {
     validationFeedback.value = validation;
     return false;
   }
+
   return true;
 }
 

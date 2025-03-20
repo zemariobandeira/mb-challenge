@@ -18,9 +18,6 @@ app.post('/registration', (req, res) => {
     ? new PersonalAccount()
     : new CompanyAccount()
 
-  console.log('PersonalAccount: ', accountRegister instanceof PersonalAccount);
-  console.log('CompanyAccount: ', accountRegister instanceof CompanyAccount);
-
   const isValid = accountRegister.validate(data)
 
   if (!isValid)

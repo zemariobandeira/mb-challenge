@@ -6,13 +6,10 @@
   const emit = defineEmits(["success", "error"]);
 
   function onFormSubmit(data) {
-    console.log(data);
     emit("success", data);
   }
 
-  function onFormSubmitError() {
-    console.log("onFormSubmitError");
-  }
+  function onFormSubmitError() {}
 </script>
 
 <template>

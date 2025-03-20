@@ -47,9 +47,7 @@ const Validate = {
     CPF: (str) => {
       try {
         const [numbers, verifyDigits] = str.split('-')
-        console.log({ numbers, verifyDigits })
         const [first, middle, last] = numbers.split('.')
-        console.log({ first, middle, last })
 
         const isInvalidDigits = verifyDigits.length !== 2
         if (isInvalidDigits)

@@ -1,19 +1,16 @@
 <script setup>
   import Formulary from "@/components/shared/Formulary.vue";
   import FormField from "@/components/shared/FormField.vue";
+  import FormRadio from "@/components/shared/FormRadio.vue";
   import Validate from "@/utils/validations";
-import FormRadio from "@/components/shared/FormRadio.vue";
 
   const emit = defineEmits(["success", "error"]);
 
   function onFormSubmit(data) {
-    console.log(data);
     emit("success", data);
   }
 
-  function onFormSubmitError() {
-    console.log("onFormSubmitError");
-  }
+  function onFormSubmitError() {}
 </script>
 
 <template>

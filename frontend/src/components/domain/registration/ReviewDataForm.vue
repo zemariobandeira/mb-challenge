@@ -13,6 +13,10 @@
       type: String,
       required: true,
     },
+    isWaiting: {
+      type: Boolean,
+      default: false,
+    },
   });
 </script>
 
@@ -98,8 +102,16 @@
       />
       <br />
       <div class="flex space-between">
-        <button type="button" @click="$emit('review')">Voltar</button>
-        <button type="button" @click="$emit('confirm', payload)">Cadastrar</button>
+        <button type="button" :disabled="isWaiting" @click="$emit('review')">
+          Voltar
+        </button>
+        <button
+          type="button"
+          :disabled="isWaiting"
+          @click="$emit('confirm', payload)"
+        >
+          Cadastrar
+        </button>
       </div>
     </Formulary>
   </div>
