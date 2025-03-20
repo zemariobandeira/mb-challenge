@@ -2,6 +2,7 @@
 import Formulary from '@/components/shared/Formulary.vue';
 import FormField from '@/components/shared/FormField.vue';
 import useSteps from '@/composables/useSteps';
+import Validate from '@/utils/validations';
 
 const { currentStep, totalSteps, forward, backward } = useSteps(5);
 
@@ -20,6 +21,7 @@ function onFormSubmit (data) {
         type="text"
         name="input1"
         text="Input 1"
+        :rules="Validate.COMMON.Email"
       />
       <FormField
         id="test2"
