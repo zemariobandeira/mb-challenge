@@ -54,8 +54,9 @@
 
 <style>
 .form-field {
-  position: relative;
   display: block;
+  width: inherit;
+  max-width: 320px;
   width: 100%;
   margin-bottom: 1rem;
 }
@@ -70,11 +71,13 @@
 
 .form-field > input[type='text'],
 .form-field > input[type='password'] {
-  display: block;
-  padding: 10px;
   border-radius: 7px;
   border: 1px solid #383838;
-  width: 100%;
+  max-width: 320px;
+  width: calc(100% - 16px);
+  padding: 7px;
+  font-size: 18px;
+  margin-top: 7px;
 }
 
 .form-field > input[type='radio'] {
