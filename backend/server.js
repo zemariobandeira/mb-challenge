@@ -1,10 +1,13 @@
 import express from 'express'
 import path from 'path'
+import cors from 'cors'
+
 import { PersonalAccount } from './PersonalAccount.js'
 import { CompanyAccount } from './CompanyAccount.js'
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 app.use(express.static(path.resolve('dist')))
 
