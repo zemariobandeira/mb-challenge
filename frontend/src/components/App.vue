@@ -1,10 +1,10 @@
 <script setup>
-import RegisterForm from '@/components/shared/RegisterForm.vue';
+import Registration from '@/components/domain/registration/Registration.vue';
 </script>
 
 <template>
   <div>
-    <RegisterForm />
+    <Registration />
   </div>
 </template>
 

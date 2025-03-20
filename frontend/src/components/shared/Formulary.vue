@@ -1,7 +1,7 @@
 <script setup>
   import { provide, ref, toRaw } from "vue";
 
-  const emit = defineEmits(["submitData"]);
+  const emit = defineEmits(["submitData", "validationError"]);
 
   const formData = ref({});
   const formValidators = ref([]);
@@ -23,6 +23,7 @@
   function onSubmitData() {
     const isValid = formValidators.value.every((validateFn) => validateFn());
     if (!isValid) {
+      emit('validationError');
       return;
     }
 

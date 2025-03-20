@@ -35,7 +35,7 @@ const Validate = {
       const isInvalidYear = strArr[2].length !== 4
         || isNaN(strArr[2])
         || Number(strArr[2]) > new Date().getFullYear()
-        || Number(strArr[1]) <= 1500
+        || Number(strArr[2]) <= 1500
 
       if (isInvalidYear)
         return 'O ano informado não é válido'
@@ -47,9 +47,11 @@ const Validate = {
     CPF: (str) => {
       try {
         const [numbers, verifyDigits] = str.split('-')
+        console.log({ numbers, verifyDigits })
         const [first, middle, last] = numbers.split('.')
+        console.log({ first, middle, last })
 
-        const isInvalidDigits = verifyDigits.last !== 2
+        const isInvalidDigits = verifyDigits.length !== 2
         if (isInvalidDigits)
           return 'Formato inválido'
 
