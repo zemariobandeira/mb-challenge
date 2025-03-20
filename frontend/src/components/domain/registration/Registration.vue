@@ -5,12 +5,24 @@
   import CredentialDataForm from "@/components/domain/registration/CredentialDataForm.vue";
   import PersonalDataForm from "@/components/domain/registration/PersonalDataForm.vue";
   import ReviewDataForm from "@/components/domain/registration/ReviewDataForm.vue";
-  import { ref, toRaw } from "vue";
+  import { computed, ref, toRaw } from "vue";
 
   const { currentStep, totalSteps, backward, forward } = useSteps(5);
   const account_type = ref("PF");
 
   const payload = ref({});
+  const isProcessing = ref(false);
+
+  const registrationTitles = [
+    '',
+    'Seja bem-vindo(a)',
+    'Pessoa Física',
+    'Pessoa Jurídica',
+    'Senha de acesso',
+    'Revise suas informações'
+  ]
+
+  const stepTitle = computed(() => registrationTitles[currentStep.value])
 
   const emit = defineEmits(['register']);
 
@@ -28,7 +40,6 @@
 
   function onConfirmation(data) {
     const sendData = toRaw(data.value)
-    console.log({ sendData })
     emit('register', sendData)
   }
 </script>
@@ -37,7 +48,7 @@
   <div>
     <div>
       Etapa <span class="primary-color">{{ currentStep }}</span> de {{ totalSteps }}
-      <h2>Seja bem-vindo(a)</h2>
+      <h2>{{ stepTitle }}</h2>
     </div>
 
     <AccountDataForm
@@ -45,15 +56,17 @@
       @success="checkAccontTypeAndForward"
     />
 
-    <PersonalDataForm
-      v-if="currentStep == 2 && account_type == 'PF'"
-      @success="getDataAndForward"
-    />
-
-    <CompanyDataForm
-      v-if="currentStep == 2 && account_type == 'PJ'"
-      @success="getDataAndForward"
-    />
+    <template v-if="currentStep == 2">
+      <PersonalDataForm
+        v-if="account_type == 'PF'"
+        @success="getDataAndForward"
+      />
+  
+      <CompanyDataForm
+        v-if="account_type == 'PJ'"
+        @success="getDataAndForward"
+      />
+    </template>
 
     <CredentialDataForm
       v-if="currentStep == 3"
@@ -64,6 +77,7 @@
       v-if="currentStep == 4"
       :payload="payload"
       :account-type="account_type"
+      :is-waiting="isProcessing"
       @confirm="onConfirmation"
       @review="backward"
     />
