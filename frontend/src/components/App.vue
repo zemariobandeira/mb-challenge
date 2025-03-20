@@ -1,10 +1,10 @@
 <script setup>
-import Registration from '@/components/domain/registration/Registration.vue';
+import RegisterView from '@/components/views/RegisterView.vue';
 </script>
 
 <template>
   <div>
-    <Registration />
+    <RegisterView />
   </div>
 </template>
 

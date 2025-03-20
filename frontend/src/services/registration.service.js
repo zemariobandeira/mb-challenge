@@ -1,5 +1,11 @@
 const service = {
   apiURL: '',
+  init: function (baseURL) {
+    if (!this.apiURL.length)
+      this.apiURL = baseURL;
+    
+    return this;
+  },
   get: async function (endpoint) {
     try {
       const response = await fetch(this.apiURL + endpoint, { method: 'GET' });
