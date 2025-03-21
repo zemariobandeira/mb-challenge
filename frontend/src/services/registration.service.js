@@ -6,43 +6,32 @@ const service = {
     
     return this;
   },
-  get: async function (endpoint) {
+  request: async function (endpoint, options) {
     try {
-      const response = await fetch(this.apiURL + endpoint, { method: 'GET' });
-
-      if (!response.ok)
-        throw new Error('Houve um erro na requisição');
-
+      const response = await fetch(this.apiURL + endpoint, options);
       const data = await response.json();
+
+      if (!response.ok) {
+        return { message: data.message || 'Erro desconhecido' };
+      }
+
       return data;
     } catch (error) {
       console.error(error);
-      return error.message
-        ? error.message
-        : 'Erro desconhecido'
+      return { message: error.message || 'Erro ao conectar ao servidor' };
     }
   },
-  post: async function (endpoint, body) {
-    try {
-      const response = await fetch(this.apiURL + endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
-
-      if (!response.ok)
-        throw new Error('Houve um erro na requisição');
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error(error);
-      return error.message
-        ? error.message
-        : 'Erro desconhecido'
-    }
+  get: function (endpoint) {
+    return this.request(endpoint, { method: 'GET' });
+  },
+  post: function (endpoint, body) {
+    return this.request(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
   }
 }
 
