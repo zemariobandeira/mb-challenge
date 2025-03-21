@@ -16,5 +16,10 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, '../frontend/src')
     }
+  },
+
+  test: {
+    globals: true,
+    environment: 'jsdom',
   }
 })
