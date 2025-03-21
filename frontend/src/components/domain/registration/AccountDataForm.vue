@@ -3,23 +3,20 @@
   import FormField from "@/components/shared/FormField.vue";
   import FormRadio from "@/components/shared/FormRadio.vue";
   import Validate from "@/utils/validations";
+  import { inject } from "vue";
 
-  const emit = defineEmits(["success", "error"]);
+  const props = defineProps(["title"]);
 
-  function onFormSubmit(data) {
-    emit("success", data);
-  }
-
-  function onFormSubmitError() {}
+  const payload = inject("payload");
+  const forward = inject("forward");
+  const account_type = inject("account_type");
 </script>
 
 <template>
   <div>
-    <Formulary
-      @submit-data="onFormSubmit"
-      @validation-error="onFormSubmitError"
-    >
+    <Formulary :title="props.title" @submit-data="forward">
       <FormField
+        v-model:model-value="payload.email"
         text="Endereço de email"
         id="email"
         type="text"
@@ -28,6 +25,7 @@
       />
       <div class="flex space-between">
         <FormRadio
+          v-model:model-value="account_type"
           name="account_type"
           :options="[
             { label: 'Pessoa física', value: 'PF' },

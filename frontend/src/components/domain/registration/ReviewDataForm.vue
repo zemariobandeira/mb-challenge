@@ -1,28 +1,19 @@
 <script setup>
   import Formulary from "@/components/shared/Formulary.vue";
   import FormField from "@/components/shared/FormField.vue";
+  import { inject } from "vue";
 
-  const emit = defineEmits(["confirm", "review"]);
+  defineProps(["title"]);
+  defineEmits(["confirm"]);
 
-  defineProps({
-    payload: {
-      type: Object,
-      required: true,
-    },
-    accountType: {
-      type: String,
-      required: true,
-    },
-    isWaiting: {
-      type: Boolean,
-      default: false,
-    },
-  });
+  const backward = inject("backward");
+  const payload = inject("payload");
+  const account_type = inject("account_type");
 </script>
 
 <template>
   <div>
-    <Formulary>
+    <Formulary :title="title">
       <FormField
         v-model:model-value="payload.email"
         text="Endereço de email"
@@ -31,7 +22,7 @@
         name="email"
         disabled
       />
-      <template v-if="accountType == 'PF'">
+      <template v-if="account_type == 'PF'">
         <FormField
           v-model:model-value="payload.name"
           text="Nome"
@@ -57,7 +48,7 @@
           disabled
         />
       </template>
-      <template v-if="accountType == 'PJ'">
+      <template v-if="account_type == 'PJ'">
         <FormField
           v-model:model-value="payload.company_name"
           text="Razão social"
@@ -85,7 +76,7 @@
       </template>
 
       <FormField
-        v-model:model-value="payload.phone"
+        v-model:model-value="payload.phone_number"
         text="Telefone"
         id="phone"
         type="text"
@@ -102,16 +93,8 @@
       />
       <br />
       <div class="flex space-between">
-        <button type="button" :disabled="isWaiting" @click="$emit('review')">
-          Voltar
-        </button>
-        <button
-          type="button"
-          :disabled="isWaiting"
-          @click="$emit('confirm', payload)"
-        >
-          Cadastrar
-        </button>
+        <button type="button" @click="backward">Voltar</button>
+        <button type="button" @click="$emit('confirm')">Cadastrar</button>
       </div>
     </Formulary>
   </div>

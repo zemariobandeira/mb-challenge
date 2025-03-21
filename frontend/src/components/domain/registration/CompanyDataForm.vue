@@ -2,29 +2,27 @@
   import Formulary from "@/components/shared/Formulary.vue";
   import FormField from "@/components/shared/FormField.vue";
   import Validate from "@/utils/validations";
+  import { inject } from "vue";
 
-  const emit = defineEmits(["success", "error"]);
-
-  function onFormSubmit(data) {
-    emit("success", data);
-  }
-
-  function onFormSubmitError() {}
+  const props = defineProps(["title"]);
+  
+  const forward = inject("forward");
+  const backward = inject("backward");
+  const payload = inject("payload");
 </script>
 
 <template>
   <div>
-    <Formulary
-      @submit-data="onFormSubmit"
-      @validation-error="onFormSubmitError"
-    >
+    <Formulary :title="props.title" @submit-data="forward">
       <FormField
+        v-model:model-value="payload.company_name"
         text="Razão social"
         id="company_name"
         type="text"
         name="company_name"
       />
       <FormField
+        v-model:model-value="payload.cnpj"
         text="CNPJ"
         id="cnpj"
         type="text"
@@ -32,6 +30,7 @@
         :rules="Validate.BRL.CNPJ"
       />
       <FormField
+        v-model:model-value="payload.birth_date"
         text="Data de abertura"
         id="birth_date"
         type="text"
@@ -39,15 +38,16 @@
         :rules="Validate.COMMON.Date"
       />
       <FormField
+        v-model:model-value="payload.phone_number"
         text="Telefone"
-        id="phone"
+        id="phone_number"
         type="text"
-        name="phone"
+        name="phone_number"
         :rules="Validate.BRL.Phone"
       />
       <br />
       <div class="flex space-between">
-        <button type="button">Voltar</button>
+        <button type="button" @click="backward">Voltar</button>
         <button type="submit">Continuar</button>
       </div>
     </Formulary>

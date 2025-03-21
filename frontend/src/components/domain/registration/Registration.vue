@@ -5,81 +5,67 @@
   import CredentialDataForm from "@/components/domain/registration/CredentialDataForm.vue";
   import PersonalDataForm from "@/components/domain/registration/PersonalDataForm.vue";
   import ReviewDataForm from "@/components/domain/registration/ReviewDataForm.vue";
-  import { computed, ref, toRaw } from "vue";
+  import { inject, provide, ref } from "vue";
 
-  const { currentStep, totalSteps, backward, forward } = useSteps(5);
-  const account_type = ref("PF");
+  const { currentStep, totalSteps, backward, forward } = useSteps(4);
 
-  const payload = ref({});
+  const payload = inject("payload");
+  const account_type = inject("account_type");
   const isProcessing = ref(false);
 
-  const registrationTitles = [
-    '',
-    'Seja bem-vindo(a)',
-    'Pessoa Física',
-    'Pessoa Jurídica',
-    'Senha de acesso',
-    'Revise suas informações'
-  ]
+  const emit = defineEmits(["register"]);
 
-  const stepTitle = computed(() => registrationTitles[currentStep.value])
-
-  const emit = defineEmits(['register']);
-
-  function checkAccontTypeAndForward(data) {
-    const { account_type: acc_type } = data;
-    account_type.value = acc_type;
-    payload.value = { ...payload.value, ...data };
-    forward();
+  function onConfirmation() {
+    emit("register");
   }
 
-  function getDataAndForward(data) {
-    payload.value = { ...payload.value, ...data };
-    forward();
-  }
-
-  function onConfirmation(data) {
-    const sendData = toRaw(data.value)
-    emit('register', sendData)
-  }
+  provide('forward', forward);
+  provide('backward', backward);
 </script>
 
 <template>
   <div>
     <div>
       Etapa <span class="primary-color">{{ currentStep }}</span> de {{ totalSteps }}
-      <h2>{{ stepTitle }}</h2>
     </div>
 
     <AccountDataForm
       v-if="currentStep == 1"
-      @success="checkAccontTypeAndForward"
+      title="Seja bem-vindo(a)"
+      @forward="forward"
     />
 
     <template v-if="currentStep == 2">
       <PersonalDataForm
         v-if="account_type == 'PF'"
-        @success="getDataAndForward"
+        title="Pessoa Física"
+        @forward="forward"
+        @backward="backward"
       />
-  
+
       <CompanyDataForm
         v-if="account_type == 'PJ'"
-        @success="getDataAndForward"
+        title="Pessoa Jurídica"
+        @forward="forward"
+        @backward="backward"
       />
     </template>
 
     <CredentialDataForm
       v-if="currentStep == 3"
-      @success="getDataAndForward"
+      title="Senha de acesso"
+      @forward="forward"
+      @backward="backward"
     />
 
     <ReviewDataForm
       v-if="currentStep == 4"
+      title="Revise suas informações"
       :payload="payload"
       :account-type="account_type"
       :is-waiting="isProcessing"
       @confirm="onConfirmation"
-      @review="backward"
+      @backward="backward"
     />
   </div>
 </template>

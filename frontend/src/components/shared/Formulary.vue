@@ -2,6 +2,7 @@
   import { provide, ref, toRaw } from "vue";
 
   const emit = defineEmits(["submitData", "validationError"]);
+  const props = defineProps(['title']);
 
   const formData = ref({});
   const formValidators = ref([]);
@@ -38,6 +39,7 @@
 
 <template>
   <div>
+    <h2>{{ props.title }}</h2>
     <form @submit.prevent="onSubmitData">
       <slot></slot>
     </form>
