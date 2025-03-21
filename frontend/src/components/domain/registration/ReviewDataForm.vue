@@ -9,6 +9,7 @@
   const backward = inject("backward");
   const payload = inject("payload");
   const account_type = inject("account_type");
+  const isProcessing = inject("isProcessing");
 </script>
 
 <template>
@@ -93,8 +94,20 @@
       />
       <br />
       <div class="flex space-between">
-        <button type="button" @click="backward">Voltar</button>
-        <button type="button" @click="$emit('confirm')">Cadastrar</button>
+        <button
+          type="button"
+          :disabled="isProcessing"
+          @click="backward"
+        >
+          Voltar
+        </button>
+        <button
+          type="button"
+          :disabled="isProcessing"
+          @click="$emit('confirm')"
+        >
+          Cadastrar
+        </button>
       </div>
     </Formulary>
   </div>

@@ -18,7 +18,7 @@ const service = {
       return data;
     } catch (error) {
       console.error(error);
-      return { message: error.message || 'Erro ao conectar ao servidor' };
+      return { message: 'Erro ao conectar ao servidor' };
     }
   },
   get: function (endpoint) {
