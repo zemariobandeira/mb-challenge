@@ -1,4 +1,4 @@
-# MB CHALLANGE
+# MB CHALLENGE
 
 Este projeto utiliza **Vue.js 3** com **Vite** no frontend e **Express.js** no backend. Ele é parte de um desafio técnico e ficará disponível aqui no Github por tempo limitado.
 
