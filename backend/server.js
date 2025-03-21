@@ -11,7 +11,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static(path.resolve('dist')))
 
-app.post('/registration', (req, res) => {
+app.post('/registration', async (req, res) => {
   const data = req.body
 
   const accountRegister = data && data.cpf
@@ -25,7 +25,7 @@ app.post('/registration', (req, res) => {
       .status(400)
       .json({ message: 'Existem campos não preenchidos. Tente novamente.' })
 
-  const isRegistered = accountRegister.register(data);
+  const isRegistered = await accountRegister.register(data);
 
   if (!isRegistered)
     return res

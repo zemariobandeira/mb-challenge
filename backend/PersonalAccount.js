@@ -12,7 +12,9 @@ export class PersonalAccount extends RegisterData {
 
   register(data) {
     console.table(data)
-    return true
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(true), 3000)
+    })
   }
 
   constructor() {
